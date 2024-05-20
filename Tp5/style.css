@@ -1,0 +1,5 @@
+img {
+    width: 300px;  /* Largeur désirée de l'image */
+    height: 200px; /* Hauteur désirée de l'image */
+    object-fit: cover; /* Garde les proportions en coupant l'excédent *//* Évite les marges inattendues autour de l'image */
+}
