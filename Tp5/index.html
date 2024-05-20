@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple de nav-bar avec Bootstrap</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="scripts.js" defer></script>
+</head>
+
+<header>
+    <nav class="navbar navbar-expand-lg justify-content-between bg-opacity-50 fixed-top">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-orange inversed" href="index.html">Accueil</a>
+            </li>
+        </ul>
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-primary inversed" href="#">Produits</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-primary inversed" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-primary inversed" href="contact.html">Nous Contacter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-primary inversed" href="#">Connexion</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+  </header>
+
+  <body>
+
+    <div class="container">
+        <div class="row h-100">
+            <div class="col-md-8 d-flex">
+                <img src="image/loading.gif" alt="Article" class="img-fluid my-auto" id="image5">
+            </div>
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="text-center mb-4">nom de l'article</h2>
+                <button class="btn btn-primary">Voir les l'article</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img class="card-img-top" id="image1" src="image/loading.gif" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" id="title1">Card title 1</h5>
+                        <p class="card-text" id="content1">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" id="lien1" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img class="card-img-top" id="image2" src="image/loading.gif" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" id="title2">Card title 2</h5>
+                        <p class="card-text" id="content2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" id="lien2" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img class="card-img-top" id="image3" src="image/loading.gif" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" id="title3">Card title 3</h5>
+                        <p class="card-text" id="content3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" id="lien3" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img class="card-img-top" id="image4" src="image/loading.gif" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" id="title4">Card title 4</h5>
+                        <p class="card-text" id="content4">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="" id="lien4" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <input class="form-control mr-sm-2 mb-3" id="search" placeholder="Rechercher">
+        <h1 class="text-center" id="carousel-name-recette"></h1>
+    </div>
+    
+    <div class="container d-flex justify-content-center align-items-center vh-100 mb-5">  
+        <div id="carouselExampleIndicators" class="carousel slide ml-lg-5" data-ride="carousel">
+            <ol class="carousel-indicators" id="carousel-indicators">
+                <!-- Indicateurs ici -->
+            </ol>
+            <div class="carousel-inner" id="carousel-inner">
+                <!-- Contenu du carrousel ici -->
+            </div>
+
+            
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Précédent</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Suivant</span>
+            </a>
+        </div>
+    </div>
+  </body>
+
+</html>
