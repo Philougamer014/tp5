@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const currentUrl = window.location.href; 
     const cart = parseCartFromUrl(currentUrl);
+    setCartLink(createCartUrl('cart.html', cart));
+    setHomeLink(createCartUrl('index.html', cart)); // Mettre à jour le lien d'accueil
+    console.log(cart); // ne pas effacer ce console log car pour une raison étrange le code ne marchais plus avant que j'ajoute ce console log
+
     fetch('https://dummyjson.com/products')
         .then(response => {
             if (!response.ok) {
@@ -135,5 +139,33 @@ function createProductLink(index, cart) {
         queryParams.append('quantity', item[1]);
     });
 
+    return `${baseUrl}?${queryParams.toString()}`;
+}
+
+function setCartLink(url) {
+    const cartLink = document.getElementById('cart');
+    if (cartLink) {
+        cartLink.href = url;
+    } else {
+        console.error('Le lien avec l\'ID "cart" n\'existe pas sur la page.');
+    }
+}
+
+function setHomeLink(url) {
+    const homeLink = document.getElementById('Accueil');
+    if (homeLink) {
+        homeLink.href = url;
+        console.log('Home link set to:', url); // Pour déboguer
+    } else {
+        console.error('Le lien avec l\'ID "Accueil" n\'existe pas sur la page.');
+    }
+}
+
+function createCartUrl(baseUrl, cart) {
+    const queryParams = new URLSearchParams();
+    cart.forEach(item => {
+        queryParams.append('productId', item[0]);
+        queryParams.append('quantity', item[1]);
+    });
     return `${baseUrl}?${queryParams.toString()}`;
 }

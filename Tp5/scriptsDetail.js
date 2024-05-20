@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const currentUrl = window.location.href; // Déclaration correcte de currentUrl
     let cart = parseCartFromUrl(currentUrl); // Parsing du panier à partir de l'URL
+    setCartLink(createCartUrl('cart.html', cart))
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('index')) {
@@ -81,6 +82,7 @@ function addToCart(productId, cart) {
     }
     console.log(cart);
     setHomeLink(createCartUrl('index.html', cart));
+    setCartLink(createCartUrl('cart.html', cart))
 }
 
 function createCartUrl(url, cart) {
@@ -99,6 +101,15 @@ function setHomeLink(url) {
         homeLink.href = url;
     } else {
         console.error('Le lien avec l\'ID "Accueil" n\'existe pas sur la page.');
+    }
+}
+
+function setCartLink(url) {
+    const homeLink = document.getElementById('cart');
+    if (homeLink) {
+        homeLink.href = url;
+    } else {
+        console.error('Le lien avec l\'ID "cart" n\'existe pas sur la page.');
     }
 }
 
