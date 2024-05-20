@@ -35,12 +35,18 @@ function fetchCartItems(cart) {
             const products = data.products;
             const cartItems = cart.map(cartItem => {
                 const product = products.find(p => p.id === cartItem.id);
-                return {
-                    ...product,
-                    quantity: cartItem.quantity
-                };
-            });
+                if (product) {
+                    return {
+                        ...product,
+                        quantity: cartItem.quantity
+                    };
+                } else {
+                    console.error(`Product with ID ${cartItem.id} not found.`);
+                    return null;
+                }
+            }).filter(item => item !== null); // Remove any null items
             displayCartItems(cartItems);
+            setPriceLink(createPriceLink('achat.html', calculateTotalPrice(cartItems))); // Set the link with total price
         })
         .catch(error => {
             console.error('There was a problem fetching the cart items:', error);
@@ -51,6 +57,7 @@ function fetchCartItems(cart) {
 function displayCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceContainer = document.getElementById('total-price');
+    cartItemsContainer.innerHTML = ''; // Clear the container before adding new items
     let totalPrice = 0;
 
     cartItems.forEach(item => {
@@ -64,7 +71,7 @@ function displayCartItems(cartItems) {
             <td>${item.price.toFixed(2)} €</td>
             <td>${item.quantity}</td>
             <td>${totalPriceForItem.toFixed(2)} €</td>
-            <td>
+            <td class="text-right">
                 <button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.id})">Retirer</button>
             </td>
         `;
@@ -79,14 +86,17 @@ function removeFromCart(productId) {
     const urlObj = new URL(window.location.href);
     const queryParams = new URLSearchParams(urlObj.search);
 
-    // Remove productId and quantity for the specified productId
     const newParams = [];
+    let skipNext = false;
+
     for (let [key, value] of queryParams.entries()) {
         if (key === 'productId' && parseInt(value, 10) === productId) {
-            continue; // Skip this productId
+            skipNext = true;
+            continue;
         }
-        if (key === 'quantity' && newParams[newParams.length - 1].includes(`productId=${productId}`)) {
-            continue; // Skip the corresponding quantity
+        if (key === 'quantity' && skipNext) {
+            skipNext = false;
+            continue;
         }
         newParams.push(`${key}=${value}`);
     }
@@ -113,3 +123,27 @@ function setHomeLink(url) {
         console.error('Le lien avec l\'ID "Accueil" n\'existe pas sur la page.');
     }
 }
+
+function calculateTotalPrice(cartItems) {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+}
+
+function createPriceLink(baseUrl, totalPrice) {
+    return `${baseUrl}?totalPrice=${totalPrice}`;
+}
+
+function setPriceLink(url) {
+    const priceLink = document.getElementById('price-link'); // Assurez-vous que l'élément avec cet ID existe dans votre HTML
+    if (priceLink) {
+        priceLink.href = url;
+        console.log('Price link set to:', url); // Pour déboguer
+    } else {
+        console.error('Le lien avec l\'ID "price-link" n\'existe pas sur la page.');
+    }
+    priceLink.onclick = () => {
+        window.location.href = url;
+    };
+}
+
+
+
