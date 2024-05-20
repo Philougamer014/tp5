@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const currentUrl = window.location.href; 
+    const cart = parseCartFromUrl(currentUrl);
     fetch('https://dummyjson.com/products')
         .then(response => {
             if (!response.ok) {
@@ -9,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             const products = data.products;
             displayFeaturedProduct(products);
-            displayProductCards(products);
-            displayCarouselItems(products);
+            displayProductCards(products, cart);
+            displayCarouselItems(products, cart);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -29,11 +31,11 @@ function displayFeaturedProduct(products) {
     imgElement.alt = product.title;
     titleElement.textContent = product.title;
     buttonElement.onclick = () => {
-        window.location.href = "detail.html?index=" + randomIndex;
+        window.location.href = `detail.html?index=${randomIndex}`;
     };
 }
 
-function displayProductCards(products) {
+function displayProductCards(products, cart) {
     const uniqueIndexes = generateUniqueRandoms(0, products.length, 4);
     uniqueIndexes.forEach((index, i) => {
         const product = products[index];
@@ -46,7 +48,7 @@ function displayProductCards(products) {
         imgElement.alt = product.title;
         titleElement.textContent = product.title;
         contentElement.textContent = product.description;
-        linkElement.href = "detail.html?index=" + index;
+        linkElement.href = createProductLink(index, cart);
     });
 }
 
@@ -60,7 +62,8 @@ function generateUniqueRandoms(min, max, count) {
     }
     return uniqueRandoms;
 }
-function displayCarouselItems(products) {
+
+function displayCarouselItems(products, cart) {
     const carouselIndicators = document.getElementById('carousel-indicators');
     const carouselInner = document.getElementById('carousel-inner');
     carouselIndicators.innerHTML = '';
@@ -70,33 +73,24 @@ function displayCarouselItems(products) {
         const indicator = document.createElement('li');
         indicator.setAttribute('data-target', '#carouselExampleIndicators');
         indicator.setAttribute('data-slide-to', index);
-        if (index === 0) {
-            indicator.classList.add('active');
-        }
-        carouselIndicators.appendChild(indicator);
+        indicator.className = index === 0 ? 'active' : '';
 
         const item = document.createElement('div');
-        item.classList.add('carousel-item');
-        if (index === 0) {
-            item.classList.add('active');
-        }
-
+        item.className = 'carousel-item' + (index === 0 ? ' active' : '');
         const imageLink = document.createElement('a');
-        imageLink.href = "detail.html?index=" + index;
-
+        imageLink.href = createProductLink(index, cart);
         const image = document.createElement('img');
         image.src = product.thumbnail;
         image.alt = product.title;
-        image.style.width = '100%';  // Utiliser toute la largeur
-        image.style.height = '500px'; // Hauteur fixe
-        image.style.objectFit = 'cover'; // Assurer que l'image remplit l'espace sans se déformer
+        image.style.width = '100%';
+        image.style.height = '500px';
+        image.style.objectFit = 'cover';
 
         imageLink.appendChild(image);
-
         item.appendChild(imageLink);
 
         const caption = document.createElement('div');
-        caption.classList.add('carousel-caption');
+        caption.className = 'carousel-caption';
         const title = document.createElement('h4');
         title.textContent = product.title;
         title.style.fontSize = '24px';
@@ -107,9 +101,39 @@ function displayCarouselItems(products) {
 
         caption.appendChild(title);
         caption.appendChild(description);
-
         item.appendChild(caption);
-
         carouselInner.appendChild(item);
     });
+}
+
+function parseCartFromUrl(url) {
+    const urlObj = new URL(url);
+    const queryParams = new URLSearchParams(urlObj.search);
+    let cart = [];
+
+    const products = queryParams.getAll('productId');
+    const quantities = queryParams.getAll('quantity');
+
+    if (products.length === quantities.length) {
+        products.forEach((productId, index) => {
+            cart.push([parseInt(productId, 10), parseInt(quantities[index], 10)]);
+        });
+    } else {
+        console.error('Les paramètres des produits et des quantités ne correspondent pas.');
+    }
+
+    return cart;
+}
+
+function createProductLink(index, cart) {
+    const baseUrl = "detail.html";
+    const queryParams = new URLSearchParams();
+
+    queryParams.append('index', index);
+    cart.forEach(item => {
+        queryParams.append('productId', item[0]);
+        queryParams.append('quantity', item[1]);
+    });
+
+    return `${baseUrl}?${queryParams.toString()}`;
 }
